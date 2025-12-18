@@ -1,24 +1,14 @@
 import pygame as pg
+import random
 
 
 class Section:
     def __init__(self, width: float, height: float, index: int, parent):
-        self.width_ratio: float = width
-        self.height_ratio: float = height
         self.index: int = index
         self.parent = parent
-
-    @property
-    def width(self):
-        return self.parent.width * self.width_ratio
-
-    @property
-    def height(self):
-        return self.parent.height * self.height_ratio
-
-    @property
-    def surface(self):
-        return pg.Surface((self.width, self.height))
+        self.width = int(width * self.parent.width)
+        self.height = int(height * self.parent.height)
+        self.surface = pg.Surface((self.width, self.height))
 
 
 class Container:
@@ -49,4 +39,5 @@ class Container:
             if current_x >= self.width:
                 current_x = 0
                 current_y += last_section.height
-            section.surface.blit(self.surface, (current_x, current_y))
+            self.surface.blit(section.surface, (current_x, current_y))
+            last_section = section
